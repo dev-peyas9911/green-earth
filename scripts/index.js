@@ -24,13 +24,36 @@ const loadPlant = () => {
 // Load Category Data
 const loadCategoryData = (id) => {
     fetch(`https://openapi.programming-hero.com/api/category/${id}`)
-    .then((res) => res.json())
-    .then((data) => {
-        removeActive();
-        const btnCategory = document.getElementById(`btn-category-${id}`);
-        btnCategory.classList.add('active');
-        displayCategoryData(data.plants)
-    })
+        .then((res) => res.json())
+        .then((data) => {
+            removeActive();
+            const btnCategory = document.getElementById(`btn-category-${id}`);
+            btnCategory.classList.add('active');
+            displayCategoryData(data.plants)
+        })
+};
+
+// Load Category Details (Modal)
+const loadCategoryDetails = (id) => {
+    fetch(`https://openapi.programming-hero.com/api/plant/${id}`)
+        .then((res) => res.json())
+        .then((data) => displayCategoryDetails(data.plants))
+};
+
+// Display Category Details (Modal)
+const displayCategoryDetails = (words) => {
+    const detailsContainer = document.getElementById('details-container');
+    detailsContainer.innerHTML = `
+    <h2 class="font-bold">${words.name}</h2>
+    <figure class="px-3 pt-3 ">
+      <img class="h-[180px] w-full object-cover rounded-xl" src="${words.image}"
+                                    alt="Shoes" />
+    </figure>
+    <p><span class="font-bold">Category:</span> ${words.category}</p>
+    <p><span class="font-semibold">Price:</span> <i class="fa-solid fa-bangladeshi-taka-sign"></i>${words.price}</p>
+    <p><span class="font-semibold">Description:</span> ${words.description}</p>
+    `
+    document.getElementById('my_modal_5').showModal();
 };
 
 // Display Category Data
@@ -52,7 +75,7 @@ function displayPlant(words) {
                                     alt="Shoes" />
                             </figure>
                             <div class="card-body">
-                                <h2 class="card-title">${word.name}</h2>
+                                <h2 onclick="loadCategoryDetails(${word.id})" class="card-title">${word.name}</h2>
                                 <p>${word.description}</p>
                                 <div class="flex justify-between items-center">
                                     <span class="bg-[#DCFCE7] text-[#15803D] px-3 py-1 rounded-xl">${word.category}</span>

@@ -83,17 +83,20 @@
         </section>
         <!-- Trees section starts here -->
         <section class="bg-[#F0FDF4] p-[1px]">
-            <div class="border border-red-500 w-11/12 mx-auto my-[100px]">
-                <h2 class="text-center font-semibold text-3xl">Choose Your Trees</h2>
+            <div class=" w-11/12 mx-auto my-[100px]">
+                <h2 class="text-center font-semibold text-3xl mb-5">Choose Your Trees</h2>
                 <div class="flex flex-col md:flex-row gap-3">
                     <!-- Left -->
-                    <div id="category-container" class="border border-green-500 left md:basis-[240px]">
+                    <div id="category-container" class=" left md:basis-[240px]">
                         <h2 class="text-lg font-semibold">Categories</h2>
                         <!-- <button class="btn btn-outline btn-success w-full border-none">Success</button> -->
                     </div>
                     <!-- Middle -->
-                    <div id="card-container"
-                        class="border border-blue-500 middle md:flex-1  grid grid-cols-1 lg:grid-cols-3 gap-[30px]">
+                    <section id="spinner" class=" hidden flex justify-center flex-1">
+                        <span class="loading loading-dots loading-xl"></span>
+                    </section>
+                    <div id="card-container" class=" middle md:flex-1  grid grid-cols-1 lg:grid-cols-3 gap-[30px]">
+
                         <!-- <div class="card bg-base-100 w-[330px] shadow-sm">
                             <figure class="px-3 pt-3">
                                 <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
@@ -115,7 +118,17 @@
                         </div> -->
                     </div>
                     <!-- Right -->
-                    <div class="border border-yellow-500 right md:basis-[240px]">right</div>
+                    <div class=" right md:basis-[240px]">
+                        <h2 class="font-bold">Your Cart</h2>
+                        <div id="cart-item-container" class="space-y-3">
+                            <!-- <div>
+                                <h2>Name</h2>
+                                <p>Price</p>
+                            </div>
+                            <div><i class="fa-solid fa-xmark"></i></div> -->
+                        </div>
+                        <p class="text-right font-bold mt-3">Total:<span id="total-price">0</span></p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -142,7 +155,7 @@
             <div id="details-container" class="space-y-3">
 
             </div>
-            
+
             <div class="modal-action">
                 <form method="dialog">
                     <!-- if there is a button in form, it will close the modal -->

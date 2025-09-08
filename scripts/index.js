@@ -6,6 +6,18 @@ const removeActive = () => {
     }
 }
 
+// Spinner
+const manageSpinner = (status) => {
+    if (status === true) {
+        document.getElementById('spinner').classList.remove('hidden');
+        document.getElementById('card-container').classList.add('hidden');
+    }
+    else {
+        document.getElementById('spinner').classList.add('hidden');
+        document.getElementById('card-container').classList.remove('hidden');
+    }
+}
+
 
 // Load Category
 const loadCategory = () => {
@@ -16,21 +28,30 @@ const loadCategory = () => {
 
 // Load All Plant
 const loadPlant = () => {
+    manageSpinner(true);
     fetch('https://openapi.programming-hero.com/api/plants')
         .then((res) => res.json())
-        .then((data) => displayPlant(data.plants))
+        .then((data) => {
+            displayPlant(data.plants);
+            manageSpinner(false);
+        })
+        .catch(() => manageSpinner(false));
+        
 };
 
 // Load Category Data
 const loadCategoryData = (id) => {
+    manageSpinner(true);
     fetch(`https://openapi.programming-hero.com/api/category/${id}`)
         .then((res) => res.json())
         .then((data) => {
             removeActive();
             const btnCategory = document.getElementById(`btn-category-${id}`);
             btnCategory.classList.add('active');
-            displayCategoryData(data.plants)
+            displayCategoryData(data.plants);
+            manageSpinner(false);
         })
+        .catch(() => manageSpinner(false));
 };
 
 // Load Category Details (Modal)
@@ -39,6 +60,49 @@ const loadCategoryDetails = (id) => {
         .then((res) => res.json())
         .then((data) => displayCategoryDetails(data.plants))
 };
+
+// ADD Event Listener
+let totalPrice = 0;
+
+function setupAddToCartButtons() {
+    const buttons = document.querySelectorAll('.addToCart');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const title = btn.getAttribute('data-title');
+            const price = parseFloat(btn.getAttribute('data-price'));
+
+            // Create cart item row
+            const cartItem = document.createElement('div');
+            cartItem.classList.add('flex', 'justify-between', 'items-center', 'pb-1', 'bg-white', 'rounded-xl', 'p-[10px]');
+            cartItem.innerHTML = `
+        <div>
+          <h2 class="font-bold">${title}</h2>
+          <p>${price} ৳</p>
+        </div>
+        <div>
+          <i class="fa-solid fa-xmark cursor-pointer text-red-500"></i>
+        </div>
+      `;
+
+            // Add to cart container
+            document.getElementById('cart-item-container').appendChild(cartItem);
+
+            // Update total
+            totalPrice += price;
+            document.getElementById('total-price').textContent = totalPrice;
+
+            // Remove item on ❌ click
+            cartItem.querySelector('i').addEventListener('click', () => {
+                cartItem.remove();
+                totalPrice -= price;
+                document.getElementById('total-price').textContent = totalPrice;
+            });
+        });
+    });
+}
+
+
+
 
 // Display Category Details (Modal)
 const displayCategoryDetails = (words) => {
@@ -82,7 +146,8 @@ function displayPlant(words) {
                                     <span class="font-bold"><i class="fa-solid fa-bangladeshi-taka-sign"></i><span>${word.price}</span></span>
                                 </div>
                                 <div class="card-actions">
-                                    <button class="btn bg-[#03C755] text-white border-[#00b544] w-full rounded-4xl">Add to
+                                    <button id="${word.id}" data-title="${word.name}" 
+  data-price="${word.price}" class="addToCart btn bg-[#03C755] text-white border-[#00b544] w-full rounded-4xl">Add to
                                         Cart</button>
                                 </div>
                             </div>
@@ -90,6 +155,7 @@ function displayPlant(words) {
         `;
         cardContainer.appendChild(card);
     });
+    setupAddToCartButtons();
 }
 
 // Display Category

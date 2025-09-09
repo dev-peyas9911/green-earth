@@ -142,7 +142,7 @@ function displayPlant(words) {
                                 <p>${word.description}</p>
                                 <div class="flex justify-between items-center">
                                     <span class="bg-[#DCFCE7] text-[#15803D] px-3 py-1 rounded-xl">${word.category}</span>
-                                    <span class="font-bold"><i class="fa-solid fa-bangladeshi-taka-sign"></i><span>${word.price}</span></span>
+                                    <span class="font-bold text-[#15803D]"><i class="fa-solid fa-bangladeshi-taka-sign"></i><span>${word.price}</span></span>
                                 </div>
                                 <div class="card-actions">
                                     <button id="${word.id}" data-title="${word.name}" 

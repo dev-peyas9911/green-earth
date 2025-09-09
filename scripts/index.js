@@ -36,7 +36,7 @@ const loadPlant = () => {
             manageSpinner(false);
         })
         .catch(() => manageSpinner(false));
-        
+
 };
 
 // Load Category Data
@@ -71,13 +71,16 @@ function setupAddToCartButtons() {
             const title = btn.getAttribute('data-title');
             const price = parseFloat(btn.getAttribute('data-price'));
 
+            // Alert message
+            alert(`${title} tree is Added to the Cart...✔`);
+
             // Create cart item row
             const cartItem = document.createElement('div');
             cartItem.classList.add('flex', 'justify-between', 'items-center', 'pb-1', 'bg-white', 'rounded-xl', 'p-[10px]');
             cartItem.innerHTML = `
         <div>
           <h2 class="font-bold">${title}</h2>
-          <p>${price} ৳</p>
+          <p>৳ ${price}</p>
         </div>
         <div>
           <i class="fa-solid fa-xmark cursor-pointer text-red-500"></i>
@@ -101,9 +104,6 @@ function setupAddToCartButtons() {
     });
 }
 
-
-
-
 // Display Category Details (Modal)
 const displayCategoryDetails = (words) => {
     const detailsContainer = document.getElementById('details-container');
@@ -124,7 +124,6 @@ const displayCategoryDetails = (words) => {
 const displayCategoryData = (words) => {
     displayPlant(words);
 };
-
 
 // Display All Plant
 function displayPlant(words) {
@@ -168,8 +167,6 @@ const displayCategory = (words) => {
         categoryContainer.appendChild(div);
     }
 };
-
-
 
 // Calling Load All Plant function
 loadPlant();
